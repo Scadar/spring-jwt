@@ -2,10 +2,7 @@
 package com.example.springjwt.auth.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -20,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Role {
 
     @Id
@@ -34,10 +32,7 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @JsonIgnore
+    @ToString.Exclude
     private Set<User> userList = new HashSet<>();
-
-    public boolean isAdminRole() {
-        return this.role.equals(RoleName.ROLE_ADMIN);
-    }
 
 }

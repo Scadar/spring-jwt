@@ -7,6 +7,7 @@ import com.example.springjwt.auth.event.OnUserLogoutSuccessEvent;
 import com.example.springjwt.auth.exception.UpdatePasswordException;
 import com.example.springjwt.auth.model.CustomUserDetails;
 import com.example.springjwt.auth.model.payload.ApiResponse;
+import com.example.springjwt.auth.model.payload.CurrentUserResponse;
 import com.example.springjwt.auth.model.payload.LogOutRequest;
 import com.example.springjwt.auth.model.payload.UpdatePasswordRequest;
 import com.example.springjwt.auth.service.AuthService;
@@ -45,14 +46,14 @@ public class UserController {
     }
 
     /**
-     * Gets the current user profile of the logged in user
+     * Gets the current user profile of the logged-in user
      */
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "Returns the current user profile")
-    public ResponseEntity<String> getUserProfile(@CurrentUser CustomUserDetails currentUser) {
+    public ResponseEntity<CurrentUserResponse> getUserProfile(@CurrentUser CustomUserDetails currentUser) {
         logger.info(currentUser.getEmail() + " has role: " + currentUser.getRoles());
-        return ResponseEntity.ok("Hello. This is about me");
+        return ResponseEntity.ok(new CurrentUserResponse(currentUser));
     }
 
     /**
@@ -67,7 +68,7 @@ public class UserController {
     }
 
     /**
-     * Updates the password of the current logged in user
+     * Updates the password of the current logged-in user
      */
     @PostMapping("/password/update")
     @PreAuthorize("hasRole('USER')")
